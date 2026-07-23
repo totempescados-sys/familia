@@ -1,19 +1,20 @@
 import { IconArrowLeft, IconSparkles } from './icons';
 
 export default function Header({ currentStep, setStep, savings }) {
-    if (currentStep === 0 || currentStep === 7) return null;
+    if (currentStep === 0 || currentStep === 8) return null;
 
     const steps = [
         { id: 1, label: 'Inicio' },
-        { id: 2, label: 'Bloque A' },
-        { id: 3, label: 'Bloque B' },
-        { id: 4, label: 'Bloque C' },
-        { id: 5, label: 'Revisión' },
-        { id: 6, label: 'Envío' }
+        { id: 2, label: 'Perfil' },
+        { id: 3, label: 'Bloque A' },
+        { id: 4, label: 'Bloque B' },
+        { id: 5, label: 'Bloque C' },
+        { id: 6, label: 'Revisión' },
+        { id: 7, label: 'Envío' }
     ];
 
     const activeIndex = steps.findIndex(s => s.id === currentStep);
-    const progress = activeIndex === -1 ? (currentStep > 6 ? 100 : 0) : (activeIndex / (steps.length - 1)) * 100;
+    const progress = activeIndex === -1 ? (currentStep > 7 ? 100 : 0) : (activeIndex / (steps.length - 1)) * 100;
 
     return (
         <div className="fixed top-0 left-0 w-full z-[250] bg-white/95 backdrop-blur-md border-b border-slate-100 shadow-sm animate-fade">
@@ -30,7 +31,7 @@ export default function Header({ currentStep, setStep, savings }) {
                         <span className="text-[9px] font-black uppercase text-blue-600 tracking-widest hidden sm:inline">Configurando tu pack</span>
                     </div>
 
-                    {(currentStep >= 2 && currentStep <= 5) && (
+                    {(currentStep >= 3 && currentStep <= 6) && (
                         <div className="animate-savings bg-green-600 text-white px-3 py-1.5 rounded-full shadow-sm flex items-center gap-2 border border-green-400">
                             <IconSparkles />
                             <div className="flex flex-col items-start leading-none">

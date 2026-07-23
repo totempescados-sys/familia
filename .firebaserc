@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "abysssafe"
+  },
+  "targets": {
+    "abysssafe": {
+      "hosting": {
+        "pescados": [
+          "totem-pescados"
+        ]
+      }
+    }
+  }
+}

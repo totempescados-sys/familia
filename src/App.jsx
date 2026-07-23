@@ -17,6 +17,7 @@ import { getDistance } from './lib/distance';
 import { calcBlockTotal, validateAllBlocks, currentTotalSavings, computePrices } from './lib/pricing';
 import { generateWhatsAppLink } from './lib/whatsapp';
 import { buildOrderMessage } from './lib/order';
+import { sendConfirmationEmail } from './lib/emailjs';
 
 function App() {
     const [step, setStep] = useState(0);
@@ -43,6 +44,7 @@ function App() {
     const [addressSearchError, setAddressSearchError] = useState(false);
     const [error, setError] = useState('');
     const [userGeo, setUserGeo] = useState(null);
+    const [honeypot, setHoneypot] = useState('');
 
     const errorTimer = useRef(null);
     const searchTimeout = useRef(null);
@@ -291,6 +293,15 @@ function App() {
     };
 
     const submitFinalOrder = async () => {
+        // Trampa antispam: si el campo oculto viene relleno, es un bot.
+        // Se finge éxito sin avisarle y sin tocar Formspree ni EmailJS.
+        if (honeypot) {
+            localStorage.removeItem('totem_pack_draft');
+            setShowUpsell(false);
+            setStep(7);
+            return;
+        }
+
         setIsSubmitting(true);
 
         const mensajeCompleto = buildOrderMessage({ userData, packCount, selections, extraSelections, totalPrice });
@@ -311,6 +322,10 @@ function App() {
             if (!res.ok) {
                 throw new Error(`Formspree respondió ${res.status}`);
             }
+
+            // El pedido ya está a salvo en Formspree; el email de confirmación
+            // es un extra de cortesía y nunca debe bloquear el éxito del pedido.
+            sendConfirmationEmail({ userData, orderMessage: mensajeCompleto, totalPrice });
 
             localStorage.removeItem('totem_pack_draft');
             setShowUpsell(false);
@@ -398,6 +413,8 @@ function App() {
                     totalPrice={totalPrice}
                     onBack={() => setStep(5)}
                     onSubmit={validateFormAndShowExtras}
+                    honeypot={honeypot}
+                    onHoneypotChange={setHoneypot}
                 />
             )}
 

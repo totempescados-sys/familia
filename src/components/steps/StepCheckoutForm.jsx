@@ -13,13 +13,26 @@ export default function StepCheckoutForm({
     onAddressInput, onSelectAddress, onNameChange,
     onPreservationChange, onWhatsAppOptIn,
     onShowMarketingModal, onShowTermsModal,
-    totalPrice, onBack, onSubmit
+    totalPrice, onBack, onSubmit,
+    honeypot, onHoneypotChange
 }) {
     return (
         <form className="max-w-lg mx-auto w-full space-y-10 animate-fade pb-12 px-2" onSubmit={(e)=>e.preventDefault()}>
             <div className="text-center space-y-1">
                 <h2 className="font-heading text-5xl sm:text-7xl uppercase text-slate-900 tracking-tighter leading-none">Finalizar Pedido</h2>
                 <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Información de entrega y contacto</p>
+            </div>
+
+            {/* Trampa antispam: invisible para personas, algunos bots simples la rellenan igualmente */}
+            <div className="absolute -left-[9999px] w-px h-px overflow-hidden" aria-hidden="true">
+                <input
+                    type="text"
+                    name="website"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    value={honeypot}
+                    onChange={e => onHoneypotChange(e.target.value)}
+                />
             </div>
 
             <div className="space-y-6">

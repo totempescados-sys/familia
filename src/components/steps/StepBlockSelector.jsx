@@ -2,8 +2,8 @@ import SafeImage from '../common/SafeImage';
 import { BLOCKS, PAIRED_FISH } from '../../lib/constants';
 import { calcBlockTotal } from '../../lib/pricing';
 
-export default function StepBlockSelector({ step, packCount, selections, randomChefTips, activePersona, onModifyQty, onBack, onNext, nextButtonRef }) {
-    const block = BLOCKS[step - 3];
+export default function StepBlockSelector({ step, packCount, selections, randomChefTips, onModifyQty, onBack, onNext, nextButtonRef }) {
+    const block = BLOCKS[step - 2];
     const currentLimit = block.baseLimit * packCount;
     const isBlockFull = calcBlockTotal(selections, block.id) === currentLimit;
 
@@ -18,11 +18,6 @@ export default function StepBlockSelector({ step, packCount, selections, randomC
                 <div className={`inline-block px-4 py-2 rounded-2xl font-black text-[10px] uppercase tracking-widest text-white transition-all duration-300 ${isBlockFull ? 'bg-green-600 shadow-lg' : 'bg-red-500 shadow-lg'}`}>
                     {calcBlockTotal(selections, block.id)} de {currentLimit} raciones
                 </div>
-                {activePersona && (
-                    <p className="text-[9px] font-black text-blue-500 uppercase tracking-widest">
-                        Pack para: {activePersona.label} {activePersona.emoji} · Ajusta lo que quieras
-                    </p>
-                )}
             </div>
 
             <div className="grid grid-cols-1 gap-4">
@@ -41,17 +36,8 @@ export default function StepBlockSelector({ step, packCount, selections, randomC
                                     <p className="text-[9px] font-bold text-green-600 uppercase mt-1">Disfrútalo de dos en dos</p>
                                 )}
                                 <div className="mt-2 pt-2 border-t border-slate-100/50">
-                                    {activePersona?.reasons[item.id] ? (
-                                        <>
-                                            <p className="text-[8px] font-black text-blue-600 uppercase tracking-widest">{activePersona.emoji} Recomendado para ti:</p>
-                                            <p className="text-[10px] text-slate-500 font-medium italic leading-tight">{activePersona.reasons[item.id]}</p>
-                                        </>
-                                    ) : (
-                                        <>
-                                            <p className="text-[8px] font-black text-blue-600 uppercase tracking-widest">Tip del chef:</p>
-                                            <p className="text-[10px] text-slate-500 font-medium italic leading-tight">{randomChefTips[item.id]}</p>
-                                        </>
-                                    )}
+                                    <p className="text-[8px] font-black text-blue-600 uppercase tracking-widest">Tip del chef:</p>
+                                    <p className="text-[10px] text-slate-500 font-medium italic leading-tight">{randomChefTips[item.id]}</p>
                                 </div>
                             </div>
                         </div>

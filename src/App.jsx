@@ -3,7 +3,6 @@ import { useState, useEffect, useRef, useMemo } from 'react';
 import Header from './components/common/Header';
 import StepLanding from './components/steps/StepLanding';
 import StepExplainer from './components/steps/StepExplainer';
-import StepPersona from './components/steps/StepPersona';
 import StepBlockSelector from './components/steps/StepBlockSelector';
 import StepReview from './components/steps/StepReview';
 import StepCheckoutForm from './components/steps/StepCheckoutForm';
@@ -22,6 +21,7 @@ import { sendConfirmationEmail } from './lib/emailjs';
 
 function App() {
     const [step, setStep] = useState(0);
+    const [showExplainerIntro, setShowExplainerIntro] = useState(true);
     const [packCount, setPackCount] = useState(1);
     const [selections, setSelections] = useState({});
     const [extraSelections, setExtraSelections] = useState({});
@@ -46,7 +46,6 @@ function App() {
     const [error, setError] = useState('');
     const [userGeo, setUserGeo] = useState(null);
     const [honeypot, setHoneypot] = useState('');
-    const [activePersona, setActivePersona] = useState(null);
 
     const errorTimer = useRef(null);
     const searchTimeout = useRef(null);
@@ -68,8 +67,7 @@ function App() {
                 setExtraSelections(parsed.extraSelections || {});
                 setUserData(prev => ({ ...prev, ...parsed.userData }));
                 setPackCount(parsed.packCount || 1);
-                setActivePersona(parsed.activePersona || null);
-                if (parsed.step > 0 && parsed.step < 8) setStep(parsed.step);
+                if (parsed.step > 0 && parsed.step < 7) setStep(parsed.step);
             } catch (e) {
                 localStorage.removeItem('totem_pack_draft');
             }
@@ -79,15 +77,15 @@ function App() {
     useEffect(() => {
         const timer = setTimeout(() => {
             localStorage.setItem('totem_pack_draft', JSON.stringify({
-                selections, extraSelections, userData, packCount, step, activePersona
+                selections, extraSelections, userData, packCount, step
             }));
         }, 1000);
         return () => clearTimeout(timer);
-    }, [selections, extraSelections, userData, packCount, step, activePersona]);
+    }, [selections, extraSelections, userData, packCount, step]);
 
     useEffect(() => {
-        if (step >= 3 && step <= 5) {
-            const block = BLOCKS[step - 3];
+        if (step >= 2 && step <= 4) {
+            const block = BLOCKS[step - 2];
             const currentLimit = block.baseLimit * packCount;
             const isBlockFull = calcBlockTotal(selections, block.id) === currentLimit;
 
@@ -114,7 +112,7 @@ function App() {
 
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
-        if (step === 7 && !userGeo && navigator.geolocation) {
+        if (step === 6 && !userGeo && navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
                 (pos) => {
                     setUserGeo({
@@ -219,10 +217,14 @@ function App() {
         setShowSuggestions(false);
     };
 
-    const applyPersona = (persona) => {
-        setActivePersona(persona);
-        setSelections(persona ? persona.selections : {});
-        setStep(3);
+    const applyProfile = (profile) => {
+        setSelections(profile.selections);
+        setStep(5);
+    };
+
+    const handleDoublePackSelected = () => {
+        setPackCount(2);
+        setShowDoublePackModal(true);
     };
 
     const handleNameChange = (val) => {
@@ -307,7 +309,7 @@ function App() {
         if (honeypot) {
             localStorage.removeItem('totem_pack_draft');
             setShowUpsell(false);
-            setStep(8);
+            setStep(7);
             return;
         }
 
@@ -338,7 +340,7 @@ function App() {
 
             localStorage.removeItem('totem_pack_draft');
             setShowUpsell(false);
-            setStep(8);
+            setStep(7);
         } catch(e) {
             setError('FALLO AL PROCESAR EL PEDIDO. INTÉNTALO DE NUEVO O CONTÁCTANOS POR WHATSAPP.');
         } finally {
@@ -367,19 +369,31 @@ function App() {
                 </div>
             )}
 
-            {step === 0 && <StepLanding onStart={() => setStep(1)} />}
+            {step === 0 && (
+                <StepLanding
+                    onStart={() => { setShowExplainerIntro(true); setStep(1); }}
+                    onSkip={() => { setShowExplainerIntro(false); setStep(1); }}
+                />
+            )}
 
-            {step === 1 && <StepExplainer onBack={() => setStep(0)} onNext={() => setStep(2)} />}
+            {step === 1 && (
+                <StepExplainer
+                    showIntro={showExplainerIntro}
+                    packCount={packCount}
+                    onSetPackCount={setPackCount}
+                    onDoublePackSelected={handleDoublePackSelected}
+                    onBack={() => setStep(0)}
+                    onNext={() => setStep(2)}
+                    onSelectProfile={applyProfile}
+                />
+            )}
 
-            {step === 2 && <StepPersona onSelect={applyPersona} onBack={() => setStep(1)} />}
-
-            {(step >= 3 && step <= 5) && (
+            {(step >= 2 && step <= 4) && (
                 <StepBlockSelector
                     step={step}
                     packCount={packCount}
                     selections={selections}
                     randomChefTips={randomChefTips}
-                    activePersona={activePersona}
                     onModifyQty={modifyQty}
                     onBack={() => setStep(step - 1)}
                     onNext={() => setStep(step + 1)}
@@ -387,23 +401,23 @@ function App() {
                 />
             )}
 
-            {step === 6 && (
+            {step === 5 && (
                 <StepReview
                     packCount={packCount}
                     selections={selections}
                     currentTotalSavings={savings}
                     onSetPackCount={setPackCount}
-                    onDoublePackSelected={() => { setPackCount(2); setShowDoublePackModal(true); }}
+                    onDoublePackSelected={handleDoublePackSelected}
                     onModifyQty={modifyQty}
-                    onBack={() => setStep(5)}
-                    onNext={() => canProceedFromReview ? setStep(7) : setError('AÚN TE QUEDAN RACIONES POR SELECCIONAR PARA COMPLETAR TUS PACKS.')}
+                    onBack={() => setStep(4)}
+                    onNext={() => canProceedFromReview ? setStep(6) : setError('AÚN TE QUEDAN RACIONES POR SELECCIONAR PARA COMPLETAR TUS PACKS.')}
                     canProceed={canProceedFromReview}
                 />
             )}
 
             {showDoublePackModal && <DoublePackModal onClose={() => setShowDoublePackModal(false)} />}
 
-            {step === 7 && (
+            {step === 6 && (
                 <StepCheckoutForm
                     userData={userData}
                     setUserData={setUserData}
@@ -423,7 +437,7 @@ function App() {
                     onShowMarketingModal={() => setShowMarketingModal(true)}
                     onShowTermsModal={() => setShowTermsModal(true)}
                     totalPrice={totalPrice}
-                    onBack={() => setStep(6)}
+                    onBack={() => setStep(5)}
                     onSubmit={validateFormAndShowExtras}
                     honeypot={honeypot}
                     onHoneypotChange={setHoneypot}
@@ -455,7 +469,7 @@ function App() {
                 />
             )}
 
-            {step === 8 && (
+            {step === 7 && (
                 <StepSuccess
                     whatsAppLink={generateWhatsAppLink({ userData, userGeo, selections, packCount, totalPrice })}
                     onReset={() => { localStorage.removeItem('totem_pack_draft'); window.location.reload(); }}

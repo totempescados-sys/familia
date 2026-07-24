@@ -1,0 +1,6 @@
+export const PROFILES = [
+    { id: 'deportista', name: 'Deportista', desc: 'Rico en omega-3 y proteína', selections: { gallineta: 1, clochina: 0, trucha: 2, caballa: 4, lenguado: 1, esgarraet: 0, langostino: 2, merluza: 2, dorada: 2, lubina: 2, emperador: 2, sepia: 0, bacalao: 0, salmon: 2, atun: 2, rape: 2, calamar: 0 } },
+    { id: 'peques', name: 'Familia con niños', desc: 'Pescado blanco, sin espinas', selections: { gallineta: 2, clochina: 0, trucha: 0, caballa: 0, lenguado: 6, esgarraet: 0, langostino: 2, merluza: 4, dorada: 2, lubina: 2, emperador: 0, sepia: 0, bacalao: 2, salmon: 0, atun: 0, rape: 0, calamar: 4 } },
+    { id: 'mayores', name: 'Mayores', desc: 'Suave y fácil digestión', selections: { gallineta: 3, clochina: 0, trucha: 2, caballa: 0, lenguado: 3, esgarraet: 0, langostino: 0, merluza: 4, dorada: 4, lubina: 2, emperador: 0, sepia: 0, bacalao: 3, salmon: 0, atun: 0, rape: 2, calamar: 1 } },
+    { id: 'clasico', name: 'Clásico', desc: 'Un poco de todo', selections: { gallineta: 2, clochina: 2, trucha: 2, caballa: 1, lenguado: 1, esgarraet: 1, langostino: 1, merluza: 2, dorada: 2, lubina: 2, emperador: 1, sepia: 1, bacalao: 1, salmon: 2, atun: 1, rape: 0, calamar: 2 } }
+];

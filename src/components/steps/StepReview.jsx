@@ -70,7 +70,7 @@ export default function StepReview({
                         2 Packs ({BASE_PACK_PRICE*2}€)
                     </button>
                 </div>
-                <p className="text-[10px] font-black text-green-600 uppercase tracking-[0.2em] animate-savings">¡Ahorro total estimado: {currentTotalSavings}€!</p>
+                <p className="text-[10px] font-black text-totemCoral uppercase tracking-[0.2em] animate-savings">¡Ahorro total estimado: {currentTotalSavings}€!</p>
             </div>
 
             <div className="pt-12 flex items-center justify-between gap-6 px-4">

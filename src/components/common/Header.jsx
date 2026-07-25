@@ -31,7 +31,7 @@ export default function Header({ currentStep, setStep, savings }) {
                     </div>
 
                     {(currentStep >= 2 && currentStep <= 5) && (
-                        <div className="animate-savings bg-green-600 text-white px-3 py-1.5 rounded-full shadow-sm flex items-center gap-2 border border-green-400">
+                        <div className="animate-savings bg-totemCoral text-white px-3 py-1.5 rounded-full shadow-sm flex items-center gap-2 border border-totemCoral">
                             <IconSparkles />
                             <div className="flex flex-col items-start leading-none">
                                 <span className="text-[7px] font-black uppercase tracking-widest opacity-80">Ahorro</span>

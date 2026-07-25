@@ -55,8 +55,15 @@ input, select, textarea { font-size: 16px !important; }
 .min-h-screen-ios { min-height: 100vh; min-height: -webkit-fill-available; }
 
 .fish-card { transition: all 0.3s ease; }
-.fish-card:hover { transform: translateY(-3px); border-color: #2563eb; }
+.fish-card:hover { transform: translateY(-3px); border-color: #0b6e86; }
 .scroll-smooth { scroll-behavior: smooth; }
+
+/* Ticket de mercado: separador perforado entre la foto y el texto,
+   igual en cualquier fila de producto (bloques, revisión, extras). */
+.ticket-divider {
+  border-left: 2px dashed #d9e4e2;
+  padding-left: 12px;
+}
 
 .progress-bar-segment { transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); }
 
@@ -66,4 +73,19 @@ input, select, textarea { font-size: 16px !important; }
 
 body {
   margin: 0;
+  background:
+    radial-gradient(ellipse 900px 500px at 12% -8%, rgba(185, 121, 31, 0.10), transparent 60%),
+    radial-gradient(ellipse 1000px 600px at 100% 0%, rgba(11, 110, 134, 0.12), transparent 55%),
+    #f2f6f6;
+  background-attachment: fixed;
+}
+
+/* Tarjeta "cómo funciona": degradado de amanecer sobre el agua, en vez
+   de un azul plano. Latón arriba a la izquierda, coral abajo a la
+   derecha, sobre la base teal->tinta. */
+.explainer-gradient {
+  background:
+    radial-gradient(ellipse 520px 320px at 15% -10%, rgba(185, 121, 31, 0.35), transparent 65%),
+    radial-gradient(ellipse 480px 380px at 100% 100%, rgba(255, 107, 74, 0.20), transparent 60%),
+    linear-gradient(165deg, #0b6e86 0%, #0e2328 100%);
 }

@@ -4,7 +4,7 @@ import { BASE_PACK_PRICE } from '../../lib/constants';
 
 export default function StepExplainer({ onBack, onNext, onSelectProfile, showIntro = true, packCount, onSetPackCount, onDoublePackSelected }) {
     return (
-        <div className="flex-1 flex flex-col bg-blue-600 rounded-[3rem] p-6 md:p-16 text-white animate-slide-right shadow-2xl relative overflow-hidden">
+        <div className="flex-1 flex flex-col explainer-gradient rounded-[3rem] p-6 md:p-16 text-white animate-slide-right shadow-2xl relative overflow-hidden">
             <div className="absolute top-0 right-0 opacity-10 translate-x-1/4 -translate-y-1/4 scale-150 rotate-12"><IconFish /></div>
 
             <div className="max-w-2xl mx-auto space-y-8 relative z-10 h-full flex flex-col justify-center">

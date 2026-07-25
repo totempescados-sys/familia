@@ -38,7 +38,7 @@ export default function StepReview({
                                         <div className="w-10 h-10 rounded-xl overflow-hidden bg-slate-50 border border-slate-100 flex-shrink-0">
                                             <SafeImage src={item.img} alt={item.name} className="w-full h-full object-cover" fallbackText={item.name} />
                                         </div>
-                                        <div className="flex-1 min-w-0">
+                                        <div className="flex-1 min-w-0 ticket-divider">
                                             <p className="font-black text-[10px] uppercase text-slate-800 break-words leading-tight">{item.name}</p>
                                         </div>
                                         <div className="flex items-center gap-3 bg-slate-50 rounded-xl p-1 px-3 flex-shrink-0 border border-slate-200">

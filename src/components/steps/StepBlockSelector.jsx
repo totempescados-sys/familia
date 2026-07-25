@@ -27,7 +27,7 @@ export default function StepBlockSelector({ step, packCount, selections, randomC
                             <div className="w-20 h-20 rounded-[1.5rem] overflow-hidden bg-slate-50 flex-shrink-0 shadow-inner border border-slate-100">
                                 <SafeImage src={item.img} alt={item.name} className="w-full h-full object-cover" fallbackText={item.name} />
                             </div>
-                            <div className="flex-1 min-w-0">
+                            <div className="flex-1 min-w-0 ticket-divider">
                                 <h3 className="font-black text-sm uppercase text-slate-800">{item.name}</h3>
                                 {item.id === 'clochina' && (
                                     <p className="text-[9px] font-bold text-green-600 uppercase mt-1 leading-tight">Se recomienda el consumo el mismo día de la recepción</p>

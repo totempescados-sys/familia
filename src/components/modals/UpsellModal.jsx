@@ -22,7 +22,7 @@ export default function UpsellModal({
                                 <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-xl sm:rounded-[1.5rem] overflow-hidden bg-slate-100 border border-slate-100 shadow-inner flex-shrink-0">
                                     <SafeImage src={e.img} alt={e.name} className="w-full h-full object-cover" fallbackText={e.name} />
                                 </div>
-                                <div className="flex-1 flex flex-col justify-between min-h-[70px] sm:min-h-[80px]">
+                                <div className="flex-1 flex flex-col justify-between min-h-[70px] sm:min-h-[80px] ticket-divider">
                                     <div className="mb-2">
                                         <p className="font-black text-[11px] sm:text-xs uppercase text-slate-800 leading-tight">{e.name}</p>
                                         <p className="text-[8px] sm:text-[9px] font-bold text-blue-500 uppercase tracking-widest mt-0.5">{e.sub}</p>
